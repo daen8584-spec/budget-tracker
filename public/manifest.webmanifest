@@ -1,0 +1,11 @@
+{
+  "name": "Budget Tracker",
+  "short_name": "Budget",
+  "description": "Track spending against monthly budgets. Your data stays on your device.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f7f6",
+  "theme_color": "#0e6b74",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
