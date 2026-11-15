@@ -9,6 +9,7 @@ import { TransactionList } from "./components/TransactionList";
 import { currentMonth, spendingByCategory, summarize, transactionsIn } from "./lib/budget";
 import type { Transaction } from "./lib/types";
 import { useBudget } from "./lib/useBudget";
+import { useOnline } from "./lib/useOnline";
 
 export interface Notice {
   message: string;
@@ -17,6 +18,7 @@ export interface Notice {
 
 export default function App() {
   const data = useBudget();
+  const online = useOnline();
   const [month, setMonth] = useState(currentMonth());
   const [editing, setEditing] = useState<Transaction | null>(null);
   const [notice, setNotice] = useState<Notice | null>(null);
@@ -67,6 +69,11 @@ export default function App() {
       </header>
 
       <main className="wrap">
+        {!online && (
+          <p className="offline" role="status">
+            You're offline. Everything still works, and changes are saved on this device.
+          </p>
+        )}
         <Summary summary={summary} money={money} />
 
         <div className="layout">

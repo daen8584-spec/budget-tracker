@@ -120,6 +120,14 @@ select {
   font-weight: 600;
 }
 
+.offline {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
 /* Summary */
 .summary {
   display: grid;
