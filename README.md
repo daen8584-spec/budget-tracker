@@ -56,10 +56,10 @@ React 19 and TypeScript, built with Vite. No UI or chart libraries: the charts a
 
 ## Tests
 
-- 50 unit and component tests: money parsing in both notations, budget math, month boundaries and leap years, CSV quoting, and storage across reloads.
+- 52 unit and component tests: money parsing in both notations, budget math, month boundaries and leap years, CSV quoting, storage across reloads, and the add form during a slow save.
 - 22 browser tests on a desktop and a phone screen, run against the production build: everyday use, CSV round trips, reloading with no connection, keyboard-only use, and an [axe](https://github.com/dequelabs/axe-core) accessibility scan in both themes.
 
-The browser tests found two bugs before release. Undoing a delete saved the entry but didn't show it until a reload. And offline, the app's script couldn't be found in the cache when the server sent a `Vary: Origin` header, because the browser's request had an `Origin` header the cached copy didn't. Both are fixed and covered by the tests.
+The tests found three bugs before release. Undoing a delete saved the entry but didn't show it until a reload. Offline, the app's script couldn't be found in the cache when the server sent a `Vary: Origin` header, because the browser's request had an `Origin` header the cached copy didn't. And on the slower CI machines, an amount typed while the previous entry was still saving got wiped when that save finished. All three are fixed and covered by tests.
 
 ## License
 
