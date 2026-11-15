@@ -38,11 +38,15 @@ export function TransactionForm({ categories, editing, defaultDate, onSubmit, on
       return;
     }
     setSaving(true);
+    const submittedAmount = amount;
+    const submittedNote = note;
     try {
       await onSubmit({ type, amountCents, date, categoryId: selectedCategory, note: note.trim() });
       if (!editing) {
-        setAmount("");
-        setNote("");
+        // Clear only what is unchanged since submitting: on a slow device the next entry
+        // may already be typed in while this one is still being saved.
+        setAmount((current) => (current === submittedAmount ? "" : current));
+        setNote((current) => (current === submittedNote ? "" : current));
         amountRef.current?.focus();
       }
     } finally {

@@ -1,4 +1,4 @@
-import type { Page } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 
 export const month = () => new Date().toISOString().slice(0, 7);
 
@@ -13,6 +13,9 @@ export async function addTransaction(
   await form.getByLabel("Category", { exact: true }).selectOption({ label: category });
   await form.getByLabel("Note").fill(note);
   await form.getByRole("button", { name: "Add transaction" }).click();
+  // The form clears once the entry is stored, so later steps (a reload, going offline)
+  // cannot overtake the save.
+  await expect(form.getByLabel("Amount", { exact: true })).toHaveValue("");
 }
 
 export function summaryValue(page: Page, label: "Income" | "Spent" | "Left") {
