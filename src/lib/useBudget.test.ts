@@ -52,6 +52,9 @@ describe("useBudget", () => {
     expect(result.current.transactions[0].amountCents).toBe(999);
     await act(() => result.current.removeTransaction(added.id));
     expect(result.current.transactions).toEqual([]);
+    // Undo puts the deleted transaction back.
+    await act(() => result.current.updateTransaction({ ...added, amountCents: 999 }));
+    expect(result.current.transactions).toMatchObject([{ id: added.id, amountCents: 999 }]);
   });
 
   it("imports rows and creates missing categories once", async () => {

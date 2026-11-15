@@ -68,9 +68,14 @@ export function useBudget(): BudgetData {
     setTransactions((list) => [...list, transaction]);
   }, []);
 
+  /** Saves a changed transaction, or puts back a deleted one (undo). */
   const updateTransaction = useCallback(async (transaction: Transaction) => {
     await db.saveTransaction(transaction);
-    setTransactions((list) => list.map((t) => (t.id === transaction.id ? transaction : t)));
+    setTransactions((list) =>
+      list.some((t) => t.id === transaction.id)
+        ? list.map((t) => (t.id === transaction.id ? transaction : t))
+        : [...list, transaction],
+    );
   }, []);
 
   const removeTransaction = useCallback(async (id: string) => {

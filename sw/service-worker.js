@@ -40,10 +40,13 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE).then((cache) => cache.put("./", copy));
           return response;
         })
-        .catch(() => caches.match("./").then((cached) => cached || Response.error())),
+        .catch(() => caches.match("./", { ignoreVary: true }).then((cached) => cached || Response.error())),
     );
     return;
   }
 
-  event.respondWith(caches.match(request).then((cached) => cached || fetch(request)));
+  // ignoreVary: servers may send "Vary: Origin", and a script request carries an Origin
+  // header that the cached copy was stored without. App files have content hashes in
+  // their names, so a URL match is exact.
+  event.respondWith(caches.match(request, { ignoreVary: true }).then((cached) => cached || fetch(request)));
 });
